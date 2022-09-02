@@ -1,0 +1,26 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .box {
+    @apply bg-light-background-secondary dark:bg-dark-background-secondary rounded-md;
+  }
+  .input {
+    @apply bg-light-background dark:bg-dark-background border border-light-line dark:border-dark-line rounded-md outline-none focus:ring-2 ring-purple-400/40 duration-100 px-2 py-1 placeholder:text-light-muted dark:placeholder:text-dark-muted;
+  }
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
