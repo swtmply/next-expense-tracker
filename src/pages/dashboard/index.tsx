@@ -1,35 +1,40 @@
-import React from "react"
-import DashboardLayout from "../../components/layouts/DashboardLayout"
+import React from "react";
+import CreateButton from "../../components/CreateButton";
+import DisplayDate from "../../components/DisplayDate";
+import DashboardLayout from "../../components/layouts/DashboardLayout";
+import useUser from "../../hooks/useUser";
 
 export type MoneyCardProps = {
-  label: string
-  amount: number
-  color?: string
-  date?: Date
-}
+  label: string;
+  amount: number;
+  color?: string;
+  date?: Date;
+};
 
 const Dashboard = () => {
+  const { user } = useUser();
+  const incomes = user?.transactions
+    .map((t) => (t.type === "income" ? t.amount : 0))
+    .reduce((a, b) => a + b, 0);
+  const expenses = user?.transactions
+    .map((t) => (t.type === "expense" ? t.amount : 0))
+    .reduce((a, b) => a + b, 0);
+
   return (
     <DashboardLayout>
       <div className="flex w-full justify-between">
         <h4 className="text-lg font-semibold">Dashboard</h4>
-        <button className="px-3 py-1 bg-purple-600 rounded-md hover:bg-purple-700 text-sm">
-          <i className={`fa-solid fa-add min-w-[1rem] mr-2`}></i>
-          Add Transaction
-        </button>
+        <CreateButton label="Transaction" />
       </div>
-      <p className="mb-2 dark:text-dark-secondary text-light-secondary text-sm">
-        From {Intl.DateTimeFormat("en-PH").format(new Date())} - To{" "}
-        {Intl.DateTimeFormat("en-PH").format(new Date())}
-      </p>
+      <DisplayDate />
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <MoneyCard label="Current Balance:" amount={0} />
-        <MoneyCard label="Income:" amount={0} />
-        <MoneyCard label="Expenses:" amount={0} />
+        <MoneyCard label="Current Balance:" amount={user?.balance ?? 0} />
+        <MoneyCard label="Income:" amount={incomes ?? 0} />
+        <MoneyCard label="Expenses:" amount={expenses ?? 0} />
       </div>
     </DashboardLayout>
-  )
-}
+  );
+};
 
 const MoneyCard = ({ label, amount }: MoneyCardProps) => {
   return (
@@ -42,7 +47,7 @@ const MoneyCard = ({ label, amount }: MoneyCardProps) => {
         <span className="text-2xl">{Intl.NumberFormat().format(amount)}</span>
       </p>
     </div>
-  )
-}
+  );
+};
 
-export default Dashboard
+export default Dashboard;
