@@ -1,14 +1,18 @@
-import { signOut } from "next-auth/react"
-import Link from "next/link"
-import React from "react"
-import NavLink from "./NavLink"
+import { useQueryClient } from "@tanstack/react-query";
+import { signOut } from "next-auth/react";
+import Link from "next/link";
+import React from "react";
+import { fetchTransactions } from "../../lib/queries";
+import NavLink from "./NavLink";
 
 const SideNav = () => {
+  const queryClient = useQueryClient();
+
   return (
     <div className="min-h-screen max-h-screen overflow-y-auto min-w-min sm:min-w-[18rem] px-3 py-4 sticky top-0 box border-r border-light-line dark:border-dark-line flex flex-col">
       <div className="w-full pb-4 h-16 flex items-center justify-center border-b border-light-line dark:border-dark-line text-center">
-        <h1 className="font-bold sm:text-xl max-w-[2rem] sm:max-w-none">
-          Allen Expense Tracker
+        <h1 className="font-bold sm:text-xl text-sm max-w-[2rem] sm:max-w-none">
+          AET
         </h1>
       </div>
       <div className="py-4 border-b border-light-line dark:border-dark-line">
@@ -22,8 +26,24 @@ const SideNav = () => {
           Forms
         </p>
         <div className="flex flex-col gap-4 sm:gap-2">
-          <NavLink href="/dashboard/expense" icon="fa-coin" text="Expenses" />
-          <NavLink href="/dashboard/income" icon="fa-peso-sign" text="Income" />
+          <NavLink
+            onClick={async () => {
+              await queryClient.prefetchQuery(["transactions", "expense"]),
+                fetchTransactions("expense");
+            }}
+            href="/dashboard/transactions/expense"
+            icon="fa-coin"
+            text="Expenses"
+          />
+          <NavLink
+            onClick={async () => {
+              await queryClient.prefetchQuery(["transactions", "income"]),
+                fetchTransactions("income");
+            }}
+            href="/dashboard/transactions/income"
+            icon="fa-peso-sign"
+            text="Income"
+          />
           <NavLink href="/dashboard/budget" icon="fa-receipt" text="Budget" />
         </div>
       </div>
@@ -54,7 +74,7 @@ const SideNav = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default SideNav
+export default SideNav;

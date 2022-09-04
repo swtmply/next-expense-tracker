@@ -11,4 +11,6 @@ export const colors: { [key: string]: string } = {
   indigo: "bg-indigo-300",
   cyan: "bg-cyan-300",
   brown: "bg-brown-300",
-}
+  amber: "bg-amber-300",
+  lime: "bg-lime-300",
+};
