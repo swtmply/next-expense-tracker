@@ -14,6 +14,7 @@ type TransactionInput = {
   date: Date;
   categoryId: string;
   type: string;
+  category?: string;
 };
 
 const Create = () => {
@@ -154,10 +155,29 @@ const Create = () => {
                   {category.name}
                 </option>
               ))}
+              <option value="others">Others</option>
             </select>
           </div>
           {errors.categoryId && (
             <p className="text-red-500 text-sm">Category is required</p>
+          )}
+          {watch()?.categoryId === "others" && (
+            <>
+              <div className="flex justify-between items-center gap-2">
+                <label htmlFor="other">Specify Other:</label>
+                <input
+                  className="input w-3/4"
+                  type="text"
+                  {...register("category")}
+                  placeholder="Others..."
+                />
+              </div>
+              {errors.category && (
+                <p className="text-red-500 text-sm">
+                  Other Category is required
+                </p>
+              )}
+            </>
           )}
           <Transition transition="slide-up" mounted={!openControls}>
             {(transitionStyles) => (

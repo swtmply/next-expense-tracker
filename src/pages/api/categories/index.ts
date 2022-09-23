@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { withServerAuth } from "../../../lib/withServerAuth";
+import { getServerAuthSession } from "../../../server/common/get-server-auth-session";
 import { prisma } from "../../../server/db/client";
 
 export default withServerAuth(async function handler(
@@ -7,10 +8,28 @@ export default withServerAuth(async function handler(
   res: NextApiResponse
 ) {
   const { method } = req;
+  const session = await getServerAuthSession({ req, res });
 
   switch (method) {
     case "GET":
-      const categories = await prisma.category.findMany({});
+      const categories = await prisma.category.findMany({
+        where: {
+          OR: [
+            {
+              users: {
+                none: {},
+              },
+            },
+            {
+              users: {
+                some: {
+                  id: session?.user?.id as string,
+                },
+              },
+            },
+          ],
+        },
+      });
 
       res.status(200).json(categories);
       break;

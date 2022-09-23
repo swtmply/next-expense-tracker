@@ -15,11 +15,11 @@ const TransactionCard = ({
   color = "gray",
 }: TransactionCardProps) => {
   return (
-    <div className="dark:bg-dark-background-secondary shadow-md dark:shadow-dark-muted/10 p-4 rounded-md min-w-[15rem] max-w-sm">
+    <div className="bg-dark-primary dark:bg-dark-background-secondary shadow-md dark:shadow-dark-muted/10 p-4 rounded-md min-w-[15rem] max-w-sm">
       <p className="w-full flex justify-between text-sm text-light-muted dark:text-dark-muted mb-4">
-        <span className="flex flex-col text-xs capitalize">
+        <span className="flex flex-col text-xs font-semibold capitalize">
           {label}
-          <span className="dark:text-dark-primary text-light-primary text-xl">
+          <span className="dark:text-dark-primary text-light-primary font-normal text-xl">
             {category}
           </span>
         </span>

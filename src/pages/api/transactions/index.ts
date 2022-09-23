@@ -35,9 +35,10 @@ export default withServerAuth(async function handler(
                 id: session?.user?.id as string,
               },
             },
-            category: categoryId
-              ? { connect: { id: categoryId } }
-              : { create: category },
+            category:
+              categoryId && categoryId !== "others"
+                ? { connect: { id: categoryId } }
+                : { create: { name: category, color: "gray" } },
           },
         });
 
@@ -50,6 +51,9 @@ export default withServerAuth(async function handler(
               req.body.type === "income"
                 ? { increment: req.body.amount }
                 : { decrement: req.body.amount },
+            categories: {
+              connect: category ? { name: category } : { id: categoryId },
+            },
           },
         });
 

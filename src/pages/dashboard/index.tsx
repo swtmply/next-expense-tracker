@@ -38,7 +38,7 @@ const Dashboard = () => {
 
 const MoneyCard = ({ label, amount }: MoneyCardProps) => {
   return (
-    <div className="dark:bg-dark-background-secondary shadow-md dark:shadow-dark-muted/10 p-4 rounded-md max-w-sm">
+    <div className="bg-dark-primary dark:bg-dark-background-secondary shadow-md dark:shadow-dark-muted/10 p-4 rounded-md max-w-full">
       <p className="text-sm text-light-muted dark:text-dark-muted mb-4">
         {label}
       </p>
